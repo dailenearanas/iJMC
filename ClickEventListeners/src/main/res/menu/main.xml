@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.omiplekevin.clickeventlisteners.app.MainActivity" >
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_preferences"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_info"
+          android:title="Information"
+          android:orderInCategory="200"
+          android:icon="@android:drawable/ic_dialog_info"
+          app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_view"
+          android:title="View"
+          android:orderInCategory="300"
+          android:icon="@android:drawable/ic_menu_view"
+          app:showAsAction="ifRoom" />
+</menu>
