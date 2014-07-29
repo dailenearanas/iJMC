@@ -1,5 +1,6 @@
 package com.omiplekevin.tabactivity;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import com.omiplekevin.adapters.ListViewAdapter;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -126,7 +129,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position + 1, getPageTitle(position).toString());
         }
 
         @Override
@@ -168,14 +171,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        private static final String ARG_SECTION_TITLE = "section_title";
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int sectionNumber, String sectionTitle) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putString(ARG_SECTION_TITLE, sectionTitle);
             fragment.setArguments(args);
             return fragment;
         }
@@ -188,10 +194,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView)rootView.findViewById(R.id.section_label);
-            textView.setText("Section Item");
+            ListView listView = (ListView)rootView.findViewById(R.id.listView);
+
             Bundle bundle = this.getArguments();
             int position = bundle.getInt("section_number");
-            Log.e("SECTION NUMBER", ""+position);
+            String sectionTitle = bundle.getString("section_title");
+
+            ArrayList<String> items = new ArrayList<String>();
+            for(int i=0;i<30;i++)
+            {
+                items.add(sectionTitle + " " + i);
+            }
+
+            ListViewAdapter adapter = new ListViewAdapter(items,this.getActivity());
+            listView.setAdapter(adapter);
+
             return rootView;
         }
     }
