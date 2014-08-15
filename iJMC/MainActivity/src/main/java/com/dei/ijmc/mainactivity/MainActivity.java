@@ -35,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
         if (hasLoggedIn) {
             changeIntent();
             finish();
+            //BIRTHDAY NI KHAREN!
         } else {
             instantiateRegisterBtn();
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
