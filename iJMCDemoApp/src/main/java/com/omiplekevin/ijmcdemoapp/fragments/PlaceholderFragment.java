@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import com.omiplekevin.ijmcdemoapp.adapters.SectionPagerAdapter;
-import com.omiplekevin.ijmcdemoapp.app.MainActivity;
+import com.omiplekevin.ijmcdemoapp.app.MainScreenActivity;
 import com.omiplekevin.ijmcdemoapp.app.R;
 
 import java.util.ArrayList;
@@ -143,7 +142,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
+        ((MainScreenActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 }
