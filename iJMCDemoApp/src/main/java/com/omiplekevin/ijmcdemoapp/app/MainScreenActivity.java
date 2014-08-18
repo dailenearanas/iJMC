@@ -16,7 +16,7 @@ import com.omiplekevin.ijmcdemoapp.fragments.NavigationDrawerFragment;
 import com.omiplekevin.ijmcdemoapp.fragments.PlaceholderFragment;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainScreenActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
