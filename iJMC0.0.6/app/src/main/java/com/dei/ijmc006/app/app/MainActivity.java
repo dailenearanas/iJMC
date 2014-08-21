@@ -1,4 +1,4 @@
-package com.dei.ijmc.mainactivity;
+package com.dei.ijmc006.app.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,10 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 //import android.content.Intent;
-import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
+import com.dei.ijmc006.app.R;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -25,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.register_page);
 
         registerBtn = (Button) findViewById(R.id.register);
 
@@ -35,7 +34,8 @@ public class MainActivity extends ActionBarActivity {
         if (hasLoggedIn) {
             changeIntent();
             finish();
-
+            //BIRTHDAY NI KHAREN!
+            //BIRTHDAY NI KHAREN!
         } else {
             instantiateRegisterBtn();
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void changeIntent() {
-        Intent intent = new Intent(MainActivity.this, MainPage.class);
+        Intent intent = new Intent(MainActivity.this, MainScreenActivity.class);
         startActivity(intent);
     }
 
@@ -113,6 +113,5 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }
