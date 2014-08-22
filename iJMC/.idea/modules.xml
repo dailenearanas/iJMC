@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MainActivity/MainActivity.iml" filepath="$PROJECT_DIR$/MainActivity/MainActivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/iJMC.iml" filepath="$PROJECT_DIR$/iJMC.iml" />
       <module fileurl="file://$PROJECT_DIR$/../iJMCDemoApp/iJMCDemoApp.iml" filepath="$PROJECT_DIR$/../iJMCDemoApp/iJMCDemoApp.iml" />
     </modules>
