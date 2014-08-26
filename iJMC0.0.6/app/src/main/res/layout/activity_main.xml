@@ -27,4 +27,9 @@
               android:layout_gravity="left"
               android:name="com.dei.ijmc006.app.fragments.NavigationDrawerFragment"/>
 
+    <!--<fragment android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/main_menu_page"
+              android:name="com.dei.ijmc006.app.fragments.MainMenuFragment"/>-->
+
 </android.support.v4.widget.DrawerLayout>
