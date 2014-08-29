@@ -1,20 +1,18 @@
 package com.dei.ijmc006.app.app;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import com.dei.ijmc006.app.R;
 import com.dei.ijmc006.app.config.Config;
+import com.dei.ijmc006.app.config.ConfigMain;
+import com.dei.ijmc006.app.fragments.MainMenuFragment;
 import com.dei.ijmc006.app.fragments.NavigationDrawerFragment;
 import com.dei.ijmc006.app.fragments.PlaceholderFragment;
 
@@ -27,16 +25,24 @@ public class MainScreenActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    private MainMenuFragment mMainMenuFragment;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    //private CharSequence menuTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.e("LOG","LOG");
+
+        FragmentTransaction fm = getSupportFragmentManager().beginTransaction();
+        fm.replace(R.id.container, new MainMenuFragment());
+        fm.commit();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -67,7 +73,6 @@ public class MainScreenActivity extends ActionBarActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

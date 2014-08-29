@@ -16,6 +16,7 @@ public class ConfigMain {
         menu.add("JMC Hymn");
         menu.add("Board of Trustees");
         menu.add("Faculty Members");
+
     }
 
     public ArrayList<String> getMenu() { return menu; }
