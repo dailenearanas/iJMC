@@ -1,4 +1,4 @@
-package info.androidhive.jsonparsing;
+package com.dei.ijmc006.app.helper;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -7,16 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.dei.ijmc006.app.R;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends ListActivity {
+public class JsonParser extends ListActivity {
     private ProgressDialog pDialog;
 
     // URL to get contacts JSON
-    private static String url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json";
+    private static String url = "192.168.1.126/iJMC-WebApp/public/test/list.json";
 
     // JSON Node names
     private static final String TAG_CONTACTS = "contacts";
@@ -80,7 +81,7 @@ public class MainActivity extends ListActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(JsonParser.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -150,9 +151,9 @@ public class MainActivity extends ListActivity {
                 pDialog.dismiss();
             /**
              * Updating parsed JSON data into ListView
-             * */
+             **/
             ListAdapter adapter = new SimpleAdapter(
-                    MainActivity.this, contactList,
+                    JsonParser.this, contactList,
                     R.layout.list_item, new String[] { TAG_NAME, TAG_EMAIL,
                     TAG_PHONE_MOBILE }, new int[] { R.id.name,
                     R.id.email, R.id.mobile });
