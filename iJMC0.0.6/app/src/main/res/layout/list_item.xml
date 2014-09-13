@@ -11,7 +11,7 @@
     <!-- Name Label -->
 
     <TextView
-            android:id="@+id/name"
+            android:id="@+id/content_id"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dip"
@@ -22,7 +22,7 @@
 
     <!-- Email label -->
     <TextView
-            android:id="@+id/email"
+            android:id="@+id/content_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dip"
@@ -30,7 +30,7 @@
 
     <!-- Mobile number label -->
     <TextView
-            android:id="@+id/mobile"
+            android:id="@+id/content_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper{
 
 	public final static String dBName = "iJMC_db";
-	final static String jmcContentTable = Config.contentsTable;
+	final static String jmcContentTable = Config.CONTENT_TABLE;
 	final static int DB_VERSION = 1;
 	
 	static Activity activity;

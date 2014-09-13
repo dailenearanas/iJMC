@@ -133,7 +133,6 @@ public class JsonDepartment extends ListActivity{
              * Updating parsed JSON data into ListView
              **/
         }
-
     }
 
     class DepartmentListAdapter extends BaseAdapter {

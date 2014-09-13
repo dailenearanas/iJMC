@@ -3,7 +3,6 @@ package info.androidhive.jsonparsing;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,30 +10,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class JsonParser extends ListActivity{
+/**
+ * Created by user on 9/12/2014.
+ */
+public class JsonStudents extends ListActivity{
     private ProgressDialog pDialog;
 
-    // URL to get contacts JSON
-    private static String url = Config.JSON_URL + "/" + Config.CONTENT_JSON;
+    // URL to get students JSON
+    private static String url = Config.JSON_URL + "/" + Config.STUDENT_JSON;
 
-    // JSON Node names CONTENT
-    private static final String TAG_CONTENT_TYPE = "content_type";
-    private static final String TAG_CONTENT_BODY = "content_body";
+    // JSON Node names STUDENT
+    private static final String TAG_STUD_ID = "stud_idnum";
+    private static final String TAG_STUD_FNAME = "stud_fname";
+    private static final String TAG_STUD_MNAME = "stud_mname";
+    private static final String TAG_STUD_LNAME = "stud_lname";
+    private static final String TAG_DEPT_ID = "dept_id";
 
-    // contacts JSONArray
-    JSONArray contents = null;
-
-    // Hashmap for ListView
-    ArrayList<ContentModel> contentList;
+    ArrayList<StudentModel> studentList;
 
     SQLiteDatabase sqLiteDB;
     DatabaseHandler dbHandler;
@@ -44,7 +45,7 @@ public class JsonParser extends ListActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contentList = new ArrayList<ContentModel>();
+        studentList = new ArrayList<StudentModel>();
 
         ListView lv = getListView();
 
@@ -61,7 +62,7 @@ public class JsonParser extends ListActivity{
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(JsonParser.this);
+            pDialog = new ProgressDialog(JsonStudents.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -89,24 +90,33 @@ public class JsonParser extends ListActivity{
                             Log.e("OBJECT",object.getString(it.next().toString()));
                         }
 
-                        String contentType = object.getString(TAG_CONTENT_TYPE);
-                        String contentBody = object.getString(TAG_CONTENT_BODY);
+                        String studId = object.getString(TAG_STUD_ID);
+                        String studFname = object.getString(TAG_STUD_FNAME);
+                        String studMname = object.getString(TAG_STUD_MNAME);
+                        String studLname = object.getString(TAG_STUD_LNAME);
+                        Integer deptId = object.getInt(TAG_DEPT_ID);
 
-                        ContentModel contentModel = new ContentModel();
+                        StudentModel studentModel = new StudentModel();
 
-                        contentModel.contentType = contentType;
-                        contentModel.contentBody = contentBody;
+                        studentModel.studentId = studId;
+                        studentModel.studentFname = studFname;
+                        studentModel.studentMname = studMname;
+                        studentModel.studentLname = studLname;
+                        studentModel.deptId = deptId;
 
-                        Queries.InsertContent(sqLiteDB, dbHandler, contentModel);
-                        contentList.add(contentModel);
+                        Queries.InsertStudents(sqLiteDB, dbHandler, studentModel);
+                        studentList.add(studentModel);
                     }
                 }
                 catch (Exception e){
                     Log.e("Error: ", e.getMessage());
                 }
+
+
             } else {
                 Log.e("ServiceHandler", "Couldn't get any data from the url");
             }
+
             return null;
         }
 
@@ -117,8 +127,8 @@ public class JsonParser extends ListActivity{
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            ArrayList<ContentModel> contentModels = Queries.getContents(sqLiteDB, dbHandler);
-            ContentListAdapter adapter = new ContentListAdapter(contentModels);
+            ArrayList<StudentModel> studentModels = Queries.getStudentID(sqLiteDB, dbHandler);
+            StudentListAdapter adapter = new StudentListAdapter(studentModels);
 
             setListAdapter(adapter);
             /**
@@ -128,16 +138,16 @@ public class JsonParser extends ListActivity{
 
     }
 
-    class ContentListAdapter extends BaseAdapter{
-        ArrayList<ContentModel> contentModels;
+    class StudentListAdapter extends BaseAdapter {
+        ArrayList<StudentModel> studentModels;
 
-        public ContentListAdapter(ArrayList<ContentModel> contentModels){
-            this.contentModels = contentModels;
+        public StudentListAdapter(ArrayList<StudentModel> studentModels){
+            this.studentModels = studentModels;
         }
 
         @Override
         public int getCount() {
-            return contentList.size();
+            return studentList.size();
         }
 
         @Override
@@ -152,16 +162,16 @@ public class JsonParser extends ListActivity{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ContentModel content = this.contentModels.get(position);
+            StudentModel studentModel = this.studentModels.get(position);
 
-            LayoutInflater inflater = (LayoutInflater)JsonParser.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater)JsonStudents.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.list_item, null);
 
-            TextView contentType = (TextView)view.findViewById(R.id.content_title);
-            contentType.setText(content.contentType);
+            TextView studentId = (TextView)view.findViewById(R.id.content_title);
+            studentId.setText(studentModel.studentId);
 
-            TextView contentBody = (TextView)view.findViewById(R.id.content_body);
-            contentBody.setText(content.contentBody);
+            TextView studentFname = (TextView)view.findViewById(R.id.content_body);
+            studentFname.setText(studentModel.studentFname);
             return view;
         }
     }

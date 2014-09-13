@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import com.dei.ijmc006.app.R;
 import com.dei.ijmc006.app.config.Config;
-import com.dei.ijmc006.app.config.ConfigMain;
 import com.dei.ijmc006.app.fragments.MainMenuFragment;
 import com.dei.ijmc006.app.fragments.NavigationDrawerFragment;
 import com.dei.ijmc006.app.fragments.PlaceholderFragment;
+import com.dei.ijmc006.app.model.ContentModel;
+
+import java.util.ArrayList;
 
 
 public class MainScreenActivity extends ActionBarActivity
@@ -25,19 +27,19 @@ public class MainScreenActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private MainMenuFragment mMainMenuFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    //private CharSequence menuTitle;
+
+    ArrayList<ContentModel> contentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("LOG","LOG");
+        Log.e("MainScreenActivity","START");
 
         FragmentTransaction fm = getSupportFragmentManager().beginTransaction();
         fm.replace(R.id.container, new MainMenuFragment());
@@ -51,6 +53,9 @@ public class MainScreenActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        contentList = new ArrayList<ContentModel>();
+
     }
 
     @Override
@@ -64,7 +69,7 @@ public class MainScreenActivity extends ActionBarActivity
 
     public void onSectionAttached(int number) {
         Config config = new Config();
-        mTitle = config.getNavManuItem(number-1);
+        mTitle = config.getNavMenuItem(number-1);
     }
 
     public void restoreActionBar() {

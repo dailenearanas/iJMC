@@ -1,10 +1,12 @@
-package info.androidhive.jsonparsing;
+package com.dei.ijmc006.app.helper;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.dei.ijmc006.app.model.ContentModel;
+import com.dei.ijmc006.app.model.DepartmentModel;
+import com.dei.ijmc006.app.model.StudentModel;
 
 import java.util.ArrayList;
 
@@ -13,10 +15,27 @@ import java.util.ArrayList;
  */
 public class Queries {
 
-    public static ArrayList<StudentModel> getStudentID(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler)
+    public static String getStudentId(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler)
     {
-        ArrayList<StudentModel> models = new ArrayList<StudentModel>();
-        StudentModel studentModel;
+        String studentId = "";
+
+        sqLiteDB = dbHandler.getReadableDatabase();
+        Cursor mCursor = sqLiteDB.rawQuery("SELECT * FROM " + DatabaseHandler.studentsTbl.toString(), null);
+
+        mCursor.moveToFirst();
+        if(!mCursor.isAfterLast())
+        {
+            do {
+                studentId = mCursor.getString(1);
+            } while (mCursor.moveToNext());
+        }
+
+        return studentId;
+    }
+
+    public static StudentModel getStudent(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler)
+    {
+        StudentModel studentModel = null;
 
         sqLiteDB = dbHandler.getReadableDatabase();
         Cursor mCursor = sqLiteDB.rawQuery("SELECT * FROM " + DatabaseHandler.studentsTbl.toString(), null);
@@ -28,20 +47,19 @@ public class Queries {
             {
                 studentModel = new StudentModel();
 
-                studentModel.studentId = mCursor.getString(1);
+                studentModel.studId = mCursor.getString(1);
                 studentModel.studentFname = mCursor.getString(2);
                 studentModel.studentMname = mCursor.getString(3);
                 studentModel.studentLname = mCursor.getString(4);
                 studentModel.deptId = mCursor.getInt(5);
 
-                models.add(studentModel);
             } while (mCursor.moveToNext());
         }
 
         mCursor.close();
         dbHandler.close();
 
-        return models;
+        return studentModel;
     }
 
     public static ArrayList<ContentModel> getContents(SQLiteDatabase sqliteDB, DatabaseHandler dbHandler)

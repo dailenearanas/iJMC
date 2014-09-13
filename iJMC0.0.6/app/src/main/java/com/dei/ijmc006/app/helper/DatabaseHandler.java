@@ -1,8 +1,9 @@
-package info.androidhive.jsonparsing;
+package com.dei.ijmc006.app.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.dei.ijmc006.app.config.Config;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 

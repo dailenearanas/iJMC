@@ -2,73 +2,55 @@ package com.dei.ijmc006.app.helper;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.dei.ijmc006.app.R;
+import com.dei.ijmc006.app.config.Config;
+import com.dei.ijmc006.app.model.ContentModel;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 
 public class JsonParser extends ListActivity {
     private ProgressDialog pDialog;
 
     // URL to get contacts JSON
-    private static String url = "192.168.1.126/iJMC-WebApp/public/test/list.json";
+    private static String url = Config.JSON_URL + "/" + Config.CONTENT_JSON;
 
-    // JSON Node names
-    private static final String TAG_CONTACTS = "contacts";
-    private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_EMAIL = "email";
-    private static final String TAG_ADDRESS = "address";
-    private static final String TAG_GENDER = "gender";
-    private static final String TAG_PHONE = "phone";
-    private static final String TAG_PHONE_MOBILE = "mobile";
-    private static final String TAG_PHONE_HOME = "home";
-    private static final String TAG_PHONE_OFFICE = "office";
+    // JSON Node names CONTENT
+    private static final String TAG_CONTENT_TYPE = "content_type";
+    private static final String TAG_CONTENT_BODY = "content_body";
 
     // contacts JSONArray
-    JSONArray contacts = null;
+    JSONArray contents = null;
 
     // Hashmap for ListView
-    ArrayList<HashMap<String, String>> contactList;
+    ArrayList<ContentModel> contentList;
+
+    SQLiteDatabase sqLiteDB;
+    DatabaseHandler dbHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
-        contactList = new ArrayList<HashMap<String, String>>();
+        contentList = new ArrayList<ContentModel>();
 
         ListView lv = getListView();
 
-        // Listview on item click listener
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = ((TextView) view.findViewById(R.id.name))
-                        .getText().toString();
-                String cost = ((TextView) view.findViewById(R.id.email))
-                        .getText().toString();
-                String description = ((TextView) view.findViewById(R.id.mobile))
-                        .getText().toString();
-
-                // Starting single contact activity
-//                Intent in = new Intent(getApplicationContext(),
-//                        //SingleContactActivity.class);
-//                in.putExtra(TAG_NAME, name);
-//                in.putExtra(TAG_EMAIL, cost);
-//                in.putExtra(TAG_PHONE_MOBILE, description);
-//                startActivity(in);
-            }
-        });
-
-        // Calling async task to get json
+        dbHandler = new DatabaseHandler(this);
         new GetContacts().execute();
     }
 
@@ -95,47 +77,37 @@ public class JsonParser extends ListActivity {
 
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-
+            //String newJson = jsonStr.substring(1,jsonStr.length()-1);
             Log.d("Response: ", "> " + jsonStr);
 
             if (jsonStr != null) {
-//                try {
-//                    JSONObject jsonObj = new JSONObject(jsonStr);
-//
-//                    // Getting JSON Array node
-//                    contacts = jsonObj.getJSONArray(TAG_CONTACTS);
-//
-//                    // looping through All Contacts
-//                    for (int i = 0; i < contacts.length(); i++) {
-//                        JSONObject c = contacts.getJSONObject(i);
-//
-//                        String id = c.getString(TAG_ID);
-//                        String name = c.getString(TAG_NAME);
-//                        String email = c.getString(TAG_EMAIL);
-//                        String address = c.getString(TAG_ADDRESS);
-//                        String gender = c.getString(TAG_GENDER);
-//
-//                        // Phone node is JSON Object
-//                        JSONObject phone = c.getJSONObject(TAG_PHONE);
-//                        String mobile = phone.getString(TAG_PHONE_MOBILE);
-//                        String home = phone.getString(TAG_PHONE_HOME);
-//                        String office = phone.getString(TAG_PHONE_OFFICE);
-//
-//                        // tmp hashmap for single contact
-//                        HashMap<String, String> contact = new HashMap<String, String>();
-//
-//                        // adding each child node to HashMap key => value
-//                        contact.put(TAG_ID, id);
-//                        contact.put(TAG_NAME, name);
-//                        contact.put(TAG_EMAIL, email);
-//                        contact.put(TAG_PHONE_MOBILE, mobile);
-//
-//                        // adding contact to contact list
-//                        contactList.add(contact);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try{
+                    JSONArray jsonArray = new JSONArray(jsonStr);
+
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        Iterator it = object.keys();
+                        while(it.hasNext()){
+                            Log.e("OBJECT",object.getString(it.next().toString()));
+                        }
+
+                        String contentType = object.getString(TAG_CONTENT_TYPE);
+                        String contentBody = object.getString(TAG_CONTENT_BODY);
+
+                        ContentModel contentModel = new ContentModel();
+
+                        contentModel.contentType = contentType;
+                        contentModel.contentBody = contentBody;
+
+                        Queries.InsertContent(sqLiteDB, dbHandler, contentModel);
+                        contentList.add(contentModel);
+                    }
+                }
+                catch (Exception e){
+                    Log.e("Error: ", e.getMessage());
+                }
+
+
             } else {
                 Log.e("ServiceHandler", "Couldn't get any data from the url");
             }
@@ -149,17 +121,53 @@ public class JsonParser extends ListActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
+            ArrayList<ContentModel> contentModels = Queries.getContents(sqLiteDB, dbHandler);
+            ContentListAdapter adapter = new ContentListAdapter(contentModels);
+
+            setListAdapter(adapter);
             /**
              * Updating parsed JSON data into ListView
              **/
-            ListAdapter adapter = new SimpleAdapter(
-                    JsonParser.this, contactList,
-                    R.layout.list_item, new String[] { TAG_NAME, TAG_EMAIL,
-                    TAG_PHONE_MOBILE }, new int[] { R.id.name,
-                    R.id.email, R.id.mobile });
-
-            setListAdapter(adapter);
         }
 
+    }
+
+    class ContentListAdapter extends BaseAdapter{
+        ArrayList<ContentModel> contentModels;
+
+        public ContentListAdapter(ArrayList<ContentModel> contentModels){
+            this.contentModels = contentModels;
+        }
+
+        @Override
+        public int getCount() {
+            return contentList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ContentModel content = this.contentModels.get(position);
+
+            LayoutInflater inflater = (LayoutInflater)JsonParser.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.list_item, null);
+
+            TextView contentType = (TextView)view.findViewById(R.id.content_title);
+            contentType.setText(content.contentType);
+
+            TextView contentBody = (TextView)view.findViewById(R.id.content_body);
+            contentBody.setText(content.contentBody);
+            return view;
+        }
     }
 }
