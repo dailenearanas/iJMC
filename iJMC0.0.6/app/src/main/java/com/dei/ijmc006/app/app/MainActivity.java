@@ -1,25 +1,35 @@
 package com.dei.ijmc006.app.app;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
+import android.view.*;
+import android.widget.*;
 //import android.content.Intent;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import com.dei.ijmc006.app.R;
+import com.dei.ijmc006.app.helper.AsyncJsonCheckID;
+import com.dei.ijmc006.app.helper.AsyncJsonData;
+import com.dei.ijmc006.app.helper.DatabaseHandler;
+import com.dei.ijmc006.app.helper.Queries;
+import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity {
 
     SharedPreferences sharedPref;
     private Button registerBtn;
     private AlertDialog dialog;
+
+    AsyncJsonCheckID asyncJsonCheckID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +44,7 @@ public class MainActivity extends ActionBarActivity {
         if (hasLoggedIn) {
             changeIntent();
             finish();
-            //BIRTHDAY NI KHAREN!
-            //BIRTHDAY NI KHAREN!
+
         } else {
             instantiateRegisterBtn();
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -57,13 +66,24 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // TODO Auto-generated method stub
-                    SharedPreferences.Editor prefEditor;
+                    final SharedPreferences.Editor prefEditor;
                     boolean log = sharedPref.getBoolean("LOGIN", false);
                     prefEditor = sharedPref.edit();
-                    prefEditor.putBoolean("LOGIN", true);
-                    prefEditor.commit();
-                    changeIntent();
-                    finish();
+                    asyncJsonCheckID = new AsyncJsonCheckID(MainActivity.this) {
+                        /*@Override
+                        protected void onPostExecute(String studentId) {
+                            super.onPostExecute(studentId);
+                            if (studentId == input.getText().toString()) {
+                                prefEditor.putBoolean("LOGIN", true);
+                                prefEditor.commit();
+                                this.dialog.dismiss();
+                                changeIntent();
+                                finish();
+                            }
+                        }*/
+                    };
+                    asyncJsonCheckID.execute(input.getText().toString());
+
                 }
             });
 
@@ -76,8 +96,6 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
         }
-
-
     }
 
     private void instantiateRegisterBtn() {
