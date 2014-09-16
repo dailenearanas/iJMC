@@ -35,7 +35,7 @@ public class Config {
 
     public static String BASE_URL = "http://192.168.56.1/iJMC-WebApp/public";
 
-    public static String JSON_URL = "http://192.168.43.210/iJMC-WebApp/public/jsonlisting";
+    public static String JSON_URL = "http://10.93.199.106/iJMC-WebApp/public/jsonlisting";
 
     public static String CONTENT_JSON = "contentlist.json";
 
@@ -55,4 +55,5 @@ public class Config {
         return mainMenuItems;
     }
 
+    public String jmcProfile;
 }
