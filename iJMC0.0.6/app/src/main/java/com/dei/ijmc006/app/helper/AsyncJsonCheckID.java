@@ -1,11 +1,13 @@
 package com.dei.ijmc006.app.helper;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -117,12 +119,21 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
    @Override
     protected void onPostExecute(String studId) {
         super.onPostExecute(studId);
-        /*if (dialog.isShowing())
+        if (dialog.isShowing())
             dialog.dismiss();
 
-        Toast.makeText(this.context, "THE RESULT IS " + studId, Toast.LENGTH_SHORT).show();*/
+       //Toast.makeText(this.context, "THE RESULT IS " + studId, Toast.LENGTH_SHORT).show();
+       Toast.makeText(this.context, "Activated", Toast.LENGTH_SHORT).show();
        Intent intent = new Intent(context, MainScreenActivity.class);
        context.startActivity(intent);
        ((Activity)context).finish();
+    }
+
+    public void timerDelayRemoveDialog(long time, final Dialog d){
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                d.dismiss();
+            }
+        }, time);
     }
 }
