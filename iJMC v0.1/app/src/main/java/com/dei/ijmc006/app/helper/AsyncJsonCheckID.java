@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.dei.ijmc006.app.app.MainActivity;
 import com.dei.ijmc006.app.app.MainScreenActivity;
 import com.dei.ijmc006.app.config.Config;
+import com.dei.ijmc006.app.model.ContentModel;
 import com.dei.ijmc006.app.model.StudentModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ import java.util.Iterator;
 /**
  * Created by user on 9/11/2014.
  */
-public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
+public class AsyncJsonCheckID extends AsyncTask<String, Integer, Boolean>{
     SQLiteDatabase sqLiteDB;
     DatabaseHandler dbHandler;
     Context context;
@@ -63,7 +64,7 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         // Creating service handler class instance
         ServiceHandler sh = new ServiceHandler();
         String studId = "";
@@ -103,7 +104,8 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
                                 shaEditor.putInt(Config.SHA_USR_DEPT_ID,studentModel.getDeptId());
                                 shaEditor.putBoolean("LOGIN", true);
                                 shaEditor.commit();
-                            return studId;
+
+                            return true;
                         }
                     }
 
@@ -117,7 +119,7 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
             Log.e("ServiceHandler", "Couldn't get any data from the url");
         }
 
-        return studId;
+        return false;
     }
 
     @Override
@@ -126,23 +128,15 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, String>{
     }
 
    @Override
-    protected void onPostExecute(String studId) {
+    protected void onPostExecute(Boolean studId) {
         super.onPostExecute(studId);
         if (dialog.isShowing())
             dialog.dismiss();
 
        //Toast.makeText(this.context, "THE RESULT IS " + studId, Toast.LENGTH_SHORT).show();
-       Toast.makeText(this.context, "Activated", Toast.LENGTH_SHORT).show();
-       Intent intent = new Intent(context, MainScreenActivity.class);
-       context.startActivity(intent);
-       ((Activity)context).finish();
-    }
-
-    public void timerDelayRemoveDialog(long time, final Dialog d){
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                d.dismiss();
-            }
-        }, time);
+       if(studId) {
+           AsyncJsonData asyncJsonData = new AsyncJsonData(context);
+                            asyncJsonData.execute();
+       }
     }
 }

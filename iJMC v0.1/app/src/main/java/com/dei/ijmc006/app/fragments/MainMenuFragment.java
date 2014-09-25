@@ -28,11 +28,9 @@ import java.util.ArrayList;
  */
 
 public class MainMenuFragment extends Fragment {
-    private View mainMenu, contentView;
+    private View mainMenu;
     private Config config;
     private FragmentTransaction ft;
-    SQLiteDatabase sqLiteDb;
-    DatabaseHandler dbHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +59,10 @@ public class MainMenuFragment extends Fragment {
                 switch(position)
                 {
                     case 0:
-//                        final String jmcProf = Queries.getJMCProf(sqLiteDB, dbHandler);
-                        String jmcProf = Queries.getJMCProf(sqLiteDb, dbHandler);
-                        JmcProfileAdapter jmcProfileAdapter = new JmcProfileAdapter(getActivity(), jmcProf);
-
-                        ListView listView = (ListView)contentView.findViewById(R.id.list);
-                        listView.setAdapter(jmcProfileAdapter);
-
+                        ft.replace(R.id.container, new TextualContent());
+                        ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        ft.addToBackStack("TextualContent");
+                        ft.commit();
                         break;
                     case 1:
                         //Toast.makeText(getActivity(), "Clicked " + str, Toast.LENGTH_SHORT).show();
@@ -118,7 +113,7 @@ public class MainMenuFragment extends Fragment {
                 SharedPreferences prefs = getActivity().getSharedPreferences("SETTINGS", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
 
-                editor.putBoolean("LOGIN", false);
+                editor.putBoolean(config.LOGIN, false);
                 editor.commit();
 
                 Intent intent = new Intent(this.getActivity(), MainActivity.class);
@@ -127,32 +122,4 @@ public class MainMenuFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //    class ContentAdapter extends BaseAdapter{
-//        @Override
-//        public int getCount() {
-//            return 0;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            View view = inflater.inflate(R.layout.list_item, null);
-//
-//            TextView contentType = (TextView)view.findViewById(R.id.content_text);
-//            contentType.setText(jmcProf);
-//
-//            return view;
-//        }
-    //}
 }

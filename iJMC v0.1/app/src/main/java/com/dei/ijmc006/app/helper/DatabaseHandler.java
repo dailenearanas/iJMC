@@ -7,7 +7,7 @@ import com.dei.ijmc006.app.config.Config;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	protected static final String DATABASE_NAME = "iJMC_db";
     final static String contentsTbl = Config.CONTENT_TABLE;
     final static String departmentsTbl = Config.DEPARTMENT_TABLE;
