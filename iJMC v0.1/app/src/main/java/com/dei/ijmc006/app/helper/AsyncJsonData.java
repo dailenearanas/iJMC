@@ -34,7 +34,9 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
 
     public AsyncJsonData(Context context){
         this.context = context;
+        contentList = new ArrayList<ContentModel>();
     }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

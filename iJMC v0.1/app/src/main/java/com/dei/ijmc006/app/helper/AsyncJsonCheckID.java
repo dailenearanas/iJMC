@@ -130,13 +130,17 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, Boolean>{
    @Override
     protected void onPostExecute(Boolean studId) {
         super.onPostExecute(studId);
-        if (dialog.isShowing())
-            dialog.dismiss();
 
-       //Toast.makeText(this.context, "THE RESULT IS " + studId, Toast.LENGTH_SHORT).show();
        if(studId) {
+           if (dialog.isShowing())
+               dialog.dismiss();
+
            AsyncJsonData asyncJsonData = new AsyncJsonData(context);
                             asyncJsonData.execute();
+       } else {
+           dialog.dismiss();
+           dialog.show();
+           Toast.makeText(this.context, "Incorrect ID", Toast.LENGTH_SHORT).show();
        }
     }
 }

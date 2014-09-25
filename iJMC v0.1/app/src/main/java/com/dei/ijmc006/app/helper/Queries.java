@@ -66,7 +66,6 @@ public class Queries {
     public static String getJMCProf(SQLiteDatabase sqLiteDb, DatabaseHandler dbHandler)
     {
         String jmcProf = "";
-        Config config;
 
         sqLiteDb = dbHandler.getReadableDatabase();
         Cursor mCursor = sqLiteDb.rawQuery("SELECT * FROM `contents` WHERE `content_type` = 'JMC Profile'", null);
