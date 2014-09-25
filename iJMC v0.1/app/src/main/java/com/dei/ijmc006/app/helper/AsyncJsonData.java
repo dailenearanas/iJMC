@@ -32,7 +32,7 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
     private static final String TAG_CONTENT_TYPE = "content_type";
     private static final String TAG_CONTENT_BODY = "content_body";
 
-    public AsyncJsonData(Context context){
+    public AsyncJsonData(Context context) {
         this.context = context;
         contentList = new ArrayList<ContentModel>();
     }
@@ -41,10 +41,12 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-            pDialog = new ProgressDialog(this.context);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();
+        dbHandler = new DatabaseHandler(context);
+        contentList = new ArrayList<ContentModel>();
+        pDialog = new ProgressDialog(this.context);
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     @Override
@@ -58,14 +60,14 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
         Log.d("Response: ", "> " + jsonStr);
 
         if (jsonStr != null) {
-            try{
+            try {
                 JSONArray jsonArray = new JSONArray(jsonStr);
 
-                for(int i=0;i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
                     Iterator it = object.keys();
-                    while(it.hasNext()){
-                        Log.e("OBJECT",object.getString(it.next().toString()));
+                    while (it.hasNext()) {
+                        Log.e("OBJECT", object.getString(it.next().toString()));
                     }
 
                     String contentType = object.getString(TAG_CONTENT_TYPE);
@@ -79,8 +81,7 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
                     Queries.InsertContent(sqLiteDB, dbHandler, contentModel);
                     contentList.add(contentModel);
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -97,7 +98,7 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
         // Dismiss the progress dialog
         /*if (pDialog.isShowing())*/
-            pDialog.dismiss();
+        pDialog.dismiss();
         Toast.makeText(this.context, "Activated", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, MainScreenActivity.class);
         context.startActivity(intent);

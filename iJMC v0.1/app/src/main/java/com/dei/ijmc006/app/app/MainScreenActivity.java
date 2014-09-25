@@ -67,6 +67,7 @@ public class MainScreenActivity extends ActionBarActivity
         fm.replace(R.id.container, new MainMenuFragment());
         fm.commit();
 
+        dbHandler = new DatabaseHandler(this);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();

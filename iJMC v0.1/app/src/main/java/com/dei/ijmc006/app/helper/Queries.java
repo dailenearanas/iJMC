@@ -165,6 +165,7 @@ public class Queries {
 
     public static void InsertContent(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler, ContentModel content) {
         Log.e("INSERTING CONTENT", "##COMMENT##");
+
         sqLiteDB = dbHandler.getWritableDatabase();
 
         ContentValues values = new ContentValues();

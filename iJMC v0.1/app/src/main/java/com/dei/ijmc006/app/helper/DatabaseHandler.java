@@ -7,15 +7,15 @@ import com.dei.ijmc006.app.config.Config;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 1;
 	protected static final String DATABASE_NAME = "iJMC_db";
     final static String contentsTbl = Config.CONTENT_TABLE;
     final static String departmentsTbl = Config.DEPARTMENT_TABLE;
     final static String studentsTbl = Config.STUDENT_TABLE;
-	
-	public DatabaseHandler(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	}
+
+    public DatabaseHandler(Context context){
+        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+    }
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {

@@ -51,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
 
         registerBtn = (Button) findViewById(R.id.register);
 
+        dbHandler = new DatabaseHandler(this);
+
         final SharedPreferences.Editor prefEditor;
         Config config = new Config();
         sharedPref = this.getSharedPreferences("SETTINGS", MODE_PRIVATE);
