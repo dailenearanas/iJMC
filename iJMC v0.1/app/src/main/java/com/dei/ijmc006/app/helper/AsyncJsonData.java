@@ -43,7 +43,6 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
-
     }
 
     @Override
