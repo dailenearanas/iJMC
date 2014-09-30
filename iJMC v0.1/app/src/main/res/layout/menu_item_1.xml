@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-<FrameLayout android:layout_width="match_parent"
+<ListView android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="10dp"
-              android:background="#fff">
+              android:background="#fff"
+              android:id="@+id/list_contentbody"/>
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center|center"
-              android:id="@+id/content_text"
-              />
+
+
+    <!--<TextView android:layout_width="wrap_content"-->
+              <!--android:layout_height="wrap_content"-->
+              <!--android:layout_gravity="center|center"-->
+              <!--android:id="@+id/content_text"-->
+              <!--/>-->
 
 </FrameLayout>
-
-   </ScrollView>

@@ -18,18 +18,19 @@ import java.util.ArrayList;
 /**
  * Created by user on 9/16/2014.
  */
-public class JmcProfileAdapter extends BaseAdapter {
-    private Context context;
-    private String jmcProfile;
+public class JmcContentAdapter extends BaseAdapter {
+    ArrayList<ContentModel> contentList;
+    Context context;
 
-    public JmcProfileAdapter(Context context, String jmcProfile){
+
+    public JmcContentAdapter(Context context, ArrayList<ContentModel> contentModels) {
         this.context = context;
-        this.jmcProfile = jmcProfile;
+        this.contentList = contentModels;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return contentList.size();
     }
 
     @Override
@@ -44,13 +45,16 @@ public class JmcProfileAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //Config config = this.jmcProfile.get(position);
+        ContentModel content = this.contentList.get(position);
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.list_item, null);
 
-        TextView txtJmcProf = (TextView)view.findViewById(R.id.content_text);
-        txtJmcProf.setText(jmcProfile);
+        TextView contentType = (TextView) view.findViewById(R.id.content_title);
+        contentType.setText(content.contentType);
 
+        TextView contentBody = (TextView) view.findViewById(R.id.content_body);
+        contentBody.setText(content.contentBody);
         return view;
     }
 }

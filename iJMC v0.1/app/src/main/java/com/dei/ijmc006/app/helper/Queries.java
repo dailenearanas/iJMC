@@ -63,9 +63,10 @@ public class Queries {
         return studentModel;
     }
 
-    public static String getJMCProf(SQLiteDatabase sqLiteDb, DatabaseHandler dbHandler)
+    public static ArrayList<ContentModel> getJMCProf(SQLiteDatabase sqLiteDb, DatabaseHandler dbHandler)
     {
-        String jmcProf = "";
+        ArrayList<ContentModel> models = new ArrayList<ContentModel>();
+        ContentModel contentModel;
 
         sqLiteDb = dbHandler.getReadableDatabase();
         Cursor mCursor = sqLiteDb.rawQuery("SELECT * FROM `contents` WHERE `content_type` = 'JMC Profile'", null);
@@ -75,7 +76,13 @@ public class Queries {
         {
             do
             {
-                jmcProf = mCursor.getString(2);
+                contentModel = new ContentModel();
+
+                contentModel.contentId = mCursor.getString(1);
+                contentModel.contentType = mCursor.getString(2);
+                contentModel.contentBody = mCursor.getString(3);
+
+                models.add(contentModel);
 
             } while (mCursor.moveToNext());
         }
@@ -83,7 +90,7 @@ public class Queries {
         mCursor.close();
         dbHandler.close();
 
-        return jmcProf;
+        return models;
     }
 
     public static ArrayList<ContentModel> getContents(SQLiteDatabase sqliteDB, DatabaseHandler dbHandler)
@@ -102,8 +109,72 @@ public class Queries {
             {
                 contentModel = new ContentModel();
 
-                contentModel.contentType = mCursor.getString(1);
-                contentModel.contentBody = mCursor.getString(2);
+                contentModel.contentId = mCursor.getString(1);
+                contentModel.contentType = mCursor.getString(2);
+                contentModel.contentBody = mCursor.getString(3);
+
+                models.add(contentModel);
+
+            } while (mCursor.moveToNext());
+        }
+
+        mCursor.close();
+        dbHandler.close();
+
+        return models;
+
+    }
+
+    public static ArrayList<ContentModel> getVMG(SQLiteDatabase sqliteDB, DatabaseHandler dbHandler)
+    {
+
+        ArrayList<ContentModel> models = new ArrayList<ContentModel>();
+        ContentModel contentModel;
+
+        sqliteDB = dbHandler.getReadableDatabase();
+        Cursor mCursor = sqliteDB.rawQuery("SELECT * from `contents` WHERE `content_type` IN ('Vision', 'Mission', 'Goal') ", null);
+
+        mCursor.moveToFirst();
+        if (!mCursor.isAfterLast())
+        {
+            do
+            {
+                contentModel = new ContentModel();
+
+                contentModel.contentId = mCursor.getString(1);
+                contentModel.contentType = mCursor.getString(2);
+                contentModel.contentBody = mCursor.getString(3);
+
+                models.add(contentModel);
+
+            } while (mCursor.moveToNext());
+        }
+
+        mCursor.close();
+        dbHandler.close();
+
+        return models;
+    }
+
+    public static ArrayList<ContentModel> getJmcHymn(SQLiteDatabase sqliteDB, DatabaseHandler dbHandler)
+    {
+
+        ArrayList<ContentModel> models = new ArrayList<ContentModel>();
+        ContentModel contentModel;
+
+        sqliteDB = dbHandler.getReadableDatabase();
+        Cursor mCursor = sqliteDB.rawQuery("SELECT * FROM `contents` WHERE `content_type` = 'JMC Hymn'", null);
+
+        mCursor.moveToFirst();
+        if (!mCursor.isAfterLast())
+        {
+            do
+            {
+                contentModel = new ContentModel();
+
+                contentModel.contentId = mCursor.getString(1);
+                contentModel.contentType = mCursor.getString(2);
+                contentModel.contentBody = mCursor.getString(3);
 
                 models.add(contentModel);
 
@@ -169,6 +240,7 @@ public class Queries {
         sqLiteDB = dbHandler.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put("content_id", content.getContentId());
         values.put("content_type", content.getContentType());
         values.put("content_body", content.getContentBody());
 

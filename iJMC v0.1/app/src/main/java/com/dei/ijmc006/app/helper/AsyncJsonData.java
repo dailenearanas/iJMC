@@ -29,6 +29,7 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
 
     private static String url = Config.JSON_URL + "/" + Config.CONTENT_JSON;
 
+    private static final String TAG_CONTENT_ID = "id";
     private static final String TAG_CONTENT_TYPE = "content_type";
     private static final String TAG_CONTENT_BODY = "content_body";
 
@@ -70,11 +71,13 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
                         Log.e("OBJECT", object.getString(it.next().toString()));
                     }
 
+                    String contentId = object.getString(TAG_CONTENT_ID);
                     String contentType = object.getString(TAG_CONTENT_TYPE);
                     String contentBody = object.getString(TAG_CONTENT_BODY);
 
                     ContentModel contentModel = new ContentModel();
 
+                    contentModel.contentId = contentId;
                     contentModel.contentType = contentType;
                     contentModel.contentBody = contentBody;
 

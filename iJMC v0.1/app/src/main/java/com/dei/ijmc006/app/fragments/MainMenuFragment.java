@@ -3,23 +3,17 @@ package com.dei.ijmc006.app.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.*;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import com.dei.ijmc006.app.R;
-import com.dei.ijmc006.app.adapters.JmcProfileAdapter;
 import com.dei.ijmc006.app.adapters.MainScreenMenuSectionAdapter;
 import com.dei.ijmc006.app.app.MainActivity;
-import com.dei.ijmc006.app.app.MainScreenActivity;
 import com.dei.ijmc006.app.config.Config;
-import com.dei.ijmc006.app.helper.DatabaseHandler;
-import com.dei.ijmc006.app.helper.Queries;
-import com.dei.ijmc006.app.model.ContentModel;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -59,23 +53,21 @@ public class MainMenuFragment extends Fragment {
                 switch(position)
                 {
                     case 0:
-                        ft.replace(R.id.container, new TextualContent());
+                        ft.replace(R.id.container, new JmcProfileFragment(getActivity()));
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack("TextualContent");
+                        ft.addToBackStack("JmcProfileFragment");
                         ft.commit();
                         break;
                     case 1:
-                        //Toast.makeText(getActivity(), "Clicked " + str, Toast.LENGTH_SHORT).show();
-                        ft.replace(R.id.container, new TextualContent());
+                        ft.replace(R.id.container, new VmgFragment(getActivity()));
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack("TextualContent");
+                        ft.addToBackStack("VmgFragment");
                         ft.commit();
                         break;
                     case 2:
-                        //Toast.makeText(getActivity(), "Clicked " + str, Toast.LENGTH_SHORT).show();
-                        ft.replace(R.id.container, new TextualContent());
+                        ft.replace(R.id.container, new JmcHymnFragment(getActivity()));
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack("TextualContent");
+                        ft.addToBackStack("JmcHymnFragment");
                         ft.commit();
                         break;
                     case 3:
