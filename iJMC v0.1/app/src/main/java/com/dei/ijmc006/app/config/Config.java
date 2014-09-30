@@ -12,7 +12,7 @@ public class Config {
 
     public Config() {
         menus = new ArrayList<String>();
-        menus.add("iJMC");
+        menus.add("About");
         menus.add("Developers");
         menus.add("Update");
         menus.add("Help");
@@ -21,7 +21,6 @@ public class Config {
         mainMenuItems.add("JMC Profile");
         mainMenuItems.add("Vision, Mission, Goals");
         mainMenuItems.add("JMC Hymn");
-        mainMenuItems.add("Board of Trustees");
         mainMenuItems.add("Faculty Members");
     }
 
@@ -35,7 +34,7 @@ public class Config {
 
     public static String BASE_URL = "http://192.168.56.1/iJMC-WebApp/public";
 
-    public static String JSON_URL = "http://192.168.56.1/iJMC-WebApp/public/jsonlisting";
+    public static String JSON_URL = "http://192.168.1.137/iJMC-WebApp/public/jsonlisting";
 
     public static String CONTENT_JSON = "contentlist.json";
 

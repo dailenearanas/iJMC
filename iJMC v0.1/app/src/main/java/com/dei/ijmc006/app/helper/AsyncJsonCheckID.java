@@ -139,7 +139,6 @@ public class AsyncJsonCheckID extends AsyncTask<String, Integer, Boolean>{
                             asyncJsonData.execute();
        } else {
            dialog.dismiss();
-           dialog.show();
            Toast.makeText(this.context, "Incorrect ID", Toast.LENGTH_SHORT).show();
        }
     }

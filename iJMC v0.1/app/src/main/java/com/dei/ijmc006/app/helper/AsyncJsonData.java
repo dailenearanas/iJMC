@@ -55,6 +55,8 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
         // Creating service handler class instance
         ServiceHandler sh = new ServiceHandler();
 
+        Queries.TruncateTables(sqLiteDB, dbHandler);
+
         // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
         //String newJson = jsonStr.substring(1,jsonStr.length()-1);

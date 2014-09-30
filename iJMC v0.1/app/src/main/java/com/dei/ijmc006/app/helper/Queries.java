@@ -262,5 +262,34 @@ public class Queries {
         sqLiteDB.close();
     }
 
+    public static void TruncateTables(SQLiteDatabase db, DatabaseHandler dbHandler) {
+        Log.e("TRUNCATE TABLES", "");
 
+        db = dbHandler.getWritableDatabase();
+
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.contentsTbl);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.departmentsTbl);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.studentsTbl);
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "+ DatabaseHandler.contentsTbl +" " +
+                "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "content_id INTEGER, " +
+                "content_type TEXT, " +
+                "content_body TEXT ) ");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "+ DatabaseHandler.departmentsTbl +" " +
+                "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "dept_id INTEGER, " +
+                "dept_title TEXT, " +
+                "dept_desc TEXT ) ");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "+ DatabaseHandler.studentsTbl +" " +
+                "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "stud_idnum TEXT, " +
+                "stud_fname TEXT, " +
+                "stud_mname TEXT, " +
+                "stud_lname TEXT, " +
+                "dept_id INTEGER ) ");
+
+    }
 }
