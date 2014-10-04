@@ -39,7 +39,7 @@ public class MainMenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mainMenu = inflater.inflate(R.layout.main_menu, container, false);
+        mainMenu = inflater.inflate(R.layout.mainmenu_list, container, false);
         ft = getFragmentManager().beginTransaction();
 
         final ArrayList<String> menus = this.config.getMenu();
@@ -71,10 +71,9 @@ public class MainMenuFragment extends Fragment {
                         ft.commit();
                         break;
                     case 3:
-                        //Toast.makeText(getActivity(), "Clicked " + str, Toast.LENGTH_SHORT).show();
-                        ft.replace(R.id.container, new TextualContent());
+                        ft.replace(R.id.container, new JmcFacultyFragment(getActivity()));
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        ft.addToBackStack("TextualContent");
+                        ft.addToBackStack("JmcFacultyFragment");
                         ft.commit();
                         break;
                     case 4:

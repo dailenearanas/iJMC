@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.dei.ijmc006.app.app.MainScreenActivity;
 import com.dei.ijmc006.app.config.Config;
 import com.dei.ijmc006.app.model.ContentModel;
+import com.dei.ijmc006.app.model.FacultyModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,17 +26,15 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
     DatabaseHandler dbHandler;
     private ProgressDialog pDialog;
     ArrayList<ContentModel> contentList;
+    ArrayList<FacultyModel> facultyList;
     Context context;
 
     private static String url = Config.JSON_URL + "/" + Config.CONTENT_JSON;
 
-    private static final String TAG_CONTENT_ID = "id";
-    private static final String TAG_CONTENT_TYPE = "content_type";
-    private static final String TAG_CONTENT_BODY = "content_body";
-
     public AsyncJsonData(Context context) {
         this.context = context;
         contentList = new ArrayList<ContentModel>();
+        facultyList = new ArrayList<FacultyModel>();
     }
 
     @Override
@@ -73,9 +72,9 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
                         Log.e("OBJECT", object.getString(it.next().toString()));
                     }
 
-                    String contentId = object.getString(TAG_CONTENT_ID);
-                    String contentType = object.getString(TAG_CONTENT_TYPE);
-                    String contentBody = object.getString(TAG_CONTENT_BODY);
+                    String contentId = object.getString(Config.TAG_CONTENT_ID);
+                    String contentType = object.getString(Config.TAG_CONTENT_TYPE);
+                    String contentBody = object.getString(Config.TAG_CONTENT_BODY);
 
                     ContentModel contentModel = new ContentModel();
 
@@ -85,6 +84,31 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
 
                     Queries.InsertContent(sqLiteDB, dbHandler, contentModel);
                     contentList.add(contentModel);
+
+                    String facultyId = object.getString(Config.TAG_FACULTY_ID);
+                    String facultyFname = object.getString(Config.TAG_FACULTY_FNAME);
+                    String facultyMname = object.getString(Config.TAG_FACULTY_MNAME);
+                    String facultyLname = object.getString(Config.TAG_FACULTY_LNAME);
+                    String facultySfx = object.getString(Config.TAG_FACULTY_SFX);
+                    String facultyGender = object.getString(Config.TAG_FACULTY_GENDER);
+                    String facultyImage = object.getString(Config.TAG_FACULTY_IMAGE);
+                    String facultyDept = object.getString(Config.TAG_FACULTY_DEPT);
+                    String facultyPos = object.getString(Config.TAG_FACULTY_POSITION);
+
+                    FacultyModel facultyModel = new FacultyModel();
+
+                    facultyModel.facultyId = facultyId;
+                    facultyModel.facultyFname = facultyFname;
+                    facultyModel.facultyMname = facultyMname;
+                    facultyModel.facultyLname = facultyLname;
+                    facultyModel.facultySfx = facultySfx;
+                    facultyModel.facultyGender = facultyGender;
+                    facultyModel.facultyImagePath = facultyImage;
+                    facultyModel.facultyDeptId = facultyDept;
+                    facultyModel.facultyPositionId = facultyPos;
+
+                    Queries.InsertFaculty(sqLiteDB, dbHandler, facultyModel);
+                    facultyList.add(facultyModel);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -103,6 +127,7 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
         // Dismiss the progress dialog
         /*if (pDialog.isShowing())*/
+        dbHandler.close();
         pDialog.dismiss();
         Toast.makeText(this.context, "Activated", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, MainScreenActivity.class);

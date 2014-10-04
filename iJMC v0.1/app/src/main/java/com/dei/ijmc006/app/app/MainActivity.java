@@ -84,8 +84,6 @@ public class MainActivity extends ActionBarActivity {
                     // TODO Auto-generated method stub
                     asyncJsonCheckID = new AsyncJsonCheckID(MainActivity.this, sharedPref);
                     asyncJsonCheckID.execute(input.getText().toString());
-                    //new GetContents().execute();
-
                 }
             });
 

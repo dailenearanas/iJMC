@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import com.dei.ijmc006.app.R;
 import com.dei.ijmc006.app.config.Config;
 
@@ -23,7 +22,7 @@ public class TextualContent extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(view == null){
-            view = inflater.inflate(R.layout.menu_item_1, null);
+            view = inflater.inflate(R.layout.jmc_contents_list, null);
 
             //TextView txtJmcProf = (TextView)view.findViewById(R.id.content_text);
             //txtJmcProf.setText(config.jmcProfile);

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.dei.ijmc006.app.config.Config;
 import com.dei.ijmc006.app.model.ContentModel;
 import com.dei.ijmc006.app.model.DepartmentModel;
+import com.dei.ijmc006.app.model.FacultyModel;
 import com.dei.ijmc006.app.model.StudentModel;
 
 import java.util.ArrayList;
@@ -188,6 +189,42 @@ public class Queries {
 
     }
 
+    public static ArrayList<FacultyModel> getFaculty(SQLiteDatabase sqLiteDb, DatabaseHandler dbHandler)
+    {
+        ArrayList<FacultyModel> models = new ArrayList<FacultyModel>();
+        FacultyModel facultyModel;
+
+        sqLiteDb = dbHandler.getReadableDatabase();
+        Cursor mCursor = sqLiteDb.rawQuery("SELECT * FROM `faculties`", null);
+
+        mCursor.moveToFirst();
+        if (!mCursor.isAfterLast())
+        {
+            do
+            {
+                facultyModel = new FacultyModel();
+
+                facultyModel.facultyId = mCursor.getString(1);
+                facultyModel.facultyFname = mCursor.getString(2);
+                facultyModel.facultyMname = mCursor.getString(3);
+                facultyModel.facultyLname = mCursor.getString(4);
+                facultyModel.facultySfx = mCursor.getString(5);
+                facultyModel.facultyGender = mCursor.getString(6);
+                facultyModel.facultyImagePath = mCursor.getString(7);
+                facultyModel.facultyDeptId = mCursor.getString(8);
+                facultyModel.facultyPositionId = mCursor.getString(10);
+
+                models.add(facultyModel);
+
+            } while (mCursor.moveToNext());
+        }
+
+        mCursor.close();
+        dbHandler.close();
+
+        return models;
+    }
+
     public static ArrayList<DepartmentModel> getDepartment(SQLiteDatabase sqliteDB, DatabaseHandler dbHandler)
     {
 
@@ -248,6 +285,26 @@ public class Queries {
         sqLiteDB.close();
     }
 
+    public static void InsertFaculty(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler, FacultyModel faculty) {
+        Log.e("INSERTING FACULTY", "##COMMENT##");
+
+        sqLiteDB = dbHandler.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("fc_idn", faculty.getFacultyId());
+        values.put("fc_name", faculty.getFacultyFname());
+        values.put("fc_mname", faculty.getFacultyMname());
+        values.put("fc_lname", faculty.getFacultyLname());
+        values.put("fc_suffix", faculty.getFacultySfx());
+        values.put("fc_gender", faculty.getFacultyGender());
+        values.put("image_path", faculty.getFacultyImagePath());
+        values.put("dept_id", faculty.getFacultyDeptId());
+        values.put("pos", faculty.getFacultyPositionId());
+
+        sqLiteDB.insert(DatabaseHandler.facultyTbl, null, values);
+        sqLiteDB.close();
+    }
+
     public static void InsertDepartment(SQLiteDatabase sqLiteDB, DatabaseHandler dbHandler, DepartmentModel department) {
         Log.e("INSERTING DEPARTMENT", "##COMMENT##");
         sqLiteDB = dbHandler.getWritableDatabase();
@@ -270,6 +327,7 @@ public class Queries {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.contentsTbl);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.departmentsTbl);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.studentsTbl);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseHandler.facultyTbl);
 
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ DatabaseHandler.contentsTbl +" " +
                 "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -290,6 +348,18 @@ public class Queries {
                 "stud_mname TEXT, " +
                 "stud_lname TEXT, " +
                 "dept_id INTEGER ) ");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "+ DatabaseHandler.facultyTbl +" " +
+                "( id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "fc_idn TEXT, " +
+                "fc_name TEXT, " +
+                "fc_mname TEXT, " +
+                "fc_lname TEXT, " +
+                "fc_suffix TEXT, " +
+                "fc_gender TEXT, " +
+                "image_path TEXT, " +
+                "dept_id TEXT, " +
+                "pos TEXT ) ");
 
     }
 }

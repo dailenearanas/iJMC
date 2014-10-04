@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.dei.ijmc006.app.R;
-import com.dei.ijmc006.app.app.MainScreenActivity;
-import com.dei.ijmc006.app.config.Config;
-import com.dei.ijmc006.app.fragments.MainMenuFragment;
-import com.dei.ijmc006.app.helper.JsonParser;
 import com.dei.ijmc006.app.model.ContentModel;
 
 import java.util.ArrayList;
@@ -48,7 +44,7 @@ public class JmcContentAdapter extends BaseAdapter {
         ContentModel content = this.contentList.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.list_item, null);
+        View view = inflater.inflate(R.layout.jmc_contents, null);
 
         TextView contentType = (TextView) view.findViewById(R.id.content_title);
         contentType.setText(content.contentType);

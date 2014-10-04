@@ -37,7 +37,7 @@ public class VmgFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(view == null){
-            view = inflater.inflate(R.layout.menu_item_1, null);
+            view = inflater.inflate(R.layout.jmc_contents_list, null);
 
             ArrayList<ContentModel> contentModels = Queries.getVMG(sqLiteDB, dbHandler);
             JmcContentAdapter adapter = new JmcContentAdapter(context, contentModels);

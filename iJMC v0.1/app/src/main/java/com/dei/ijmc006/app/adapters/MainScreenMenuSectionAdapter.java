@@ -41,7 +41,7 @@ public class MainScreenMenuSectionAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.menu_item, null);
+        View view = inflater.inflate(R.layout.mainmenu_item, null);
 
         TextView textView = (TextView)view.findViewById(R.id.main_menu_title);
         textView.setText(menus.get(position));

@@ -34,7 +34,7 @@ public class Config {
 
     public static String BASE_URL = "http://192.168.56.1/iJMC-WebApp/public";
 
-    public static String JSON_URL = "http://192.168.1.137/iJMC-WebApp/public/jsonlisting";
+    public static String JSON_URL = "http://192.168.1.127/iJMC-WebApp/public/jsonlisting";
 
     public static String CONTENT_JSON = "contentlist.json";
 
@@ -70,4 +70,25 @@ public class Config {
     public static String SHA_USR_LNAME = "USR_LNAME";
 
     public static String SHA_USR_DEPT_ID = "USR_DEPT_ID";
+
+    //    CONTENT TABLE TAGS
+    public static final String TAG_CONTENT_ID = "id";
+    public static final String TAG_CONTENT_TYPE = "content_type";
+    public static final String TAG_CONTENT_BODY = "content_body";
+
+    //    FACULTY TABLE TAGS
+    public static final String TAG_FACULTY_ID = "fc_idn";
+    public static final String TAG_FACULTY_FNAME = "fc_name";
+    public static final String TAG_FACULTY_MNAME = "fc_mname";
+    public static final String TAG_FACULTY_LNAME = "fc_lname";
+    public static final String TAG_FACULTY_SFX = "fc_suffix";
+    public static final String TAG_FACULTY_GENDER = "fc_gender";
+    public static final String TAG_FACULTY_IMAGE = "image_path";
+    public static final String TAG_FACULTY_DEPT = "dept_id";
+    public static final String TAG_FACULTY_POSITION = "pos";
+
+    //    DEPARTMENT TABLE TAGS
+    public static final String TAG_DEPT_ID = "id";
+    public static final String TAG_DEPT_TITLE = "dept_title";
+    public static final String TAG_DEPT_DESC = "dept_desc";
 }

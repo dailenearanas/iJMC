@@ -10,28 +10,28 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.dei.ijmc006.app.R;
 import com.dei.ijmc006.app.adapters.JmcContentAdapter;
+import com.dei.ijmc006.app.adapters.JmcFacultyAdapter;
 import com.dei.ijmc006.app.helper.DatabaseHandler;
 import com.dei.ijmc006.app.helper.Queries;
 import com.dei.ijmc006.app.model.ContentModel;
+import com.dei.ijmc006.app.model.FacultyModel;
 
 import java.util.ArrayList;
 
 /**
- * Created by user on 9/25/2014.
+ * Created by user on 10/1/2014.
  */
-public class JmcProfileFragment extends Fragment {
+public class JmcFacultyFragment extends Fragment {
     SQLiteDatabase sqLiteDB;
     DatabaseHandler dbHandler;
     Context context;
-    ArrayList<ContentModel> contentList;
-
+    ArrayList<FacultyModel> facultyList;
     private View view;
 
-    public JmcProfileFragment(Context context) {
+    public JmcFacultyFragment(Context context) {
         this.context = context;
         this.dbHandler = new DatabaseHandler(context);
-        contentList = new ArrayList<ContentModel>();
-
+        facultyList = new ArrayList<FacultyModel>();
     }
 
     @Override
@@ -39,8 +39,8 @@ public class JmcProfileFragment extends Fragment {
         if(view == null){
             view = inflater.inflate(R.layout.jmc_contents_list, null);
 
-            ArrayList<ContentModel> contentModels = Queries.getJMCProf(sqLiteDB, dbHandler);
-            JmcContentAdapter adapter = new JmcContentAdapter(context, contentModels);
+            ArrayList<FacultyModel> facultyModels = Queries.getFaculty(sqLiteDB, dbHandler);
+            JmcFacultyAdapter adapter = new JmcFacultyAdapter(context, facultyModels);
 
             ListView listContentView = (ListView)view.findViewById(R.id.list_contentbody);
             listContentView.setAdapter(adapter);

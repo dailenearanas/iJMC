@@ -160,7 +160,7 @@ public class JsonParser extends ListActivity {
             ContentModel content = this.contentModels.get(position);
 
             LayoutInflater inflater = (LayoutInflater)JsonParser.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.list_item, null);
+            View view = inflater.inflate(R.layout.jmc_contents, null);
 
             TextView contentType = (TextView)view.findViewById(R.id.content_title);
             contentType.setText(content.contentType);
