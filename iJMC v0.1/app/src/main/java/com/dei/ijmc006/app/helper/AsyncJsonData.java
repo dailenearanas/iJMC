@@ -107,8 +107,8 @@ public class AsyncJsonData extends AsyncTask<Void, Void, Void> {
                     facultyModel.facultyDeptId = facultyDept;
                     facultyModel.facultyPositionId = facultyPos;
 
-                    Queries.InsertFaculty(sqLiteDB, dbHandler, facultyModel);
-                    facultyList.add(facultyModel);
+//                    Queries.InsertFaculty(sqLiteDB, dbHandler, facultyModel);
+//                    facultyList.add(facultyModel);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
